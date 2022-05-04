@@ -41,3 +41,8 @@ php bin/console doctrine:schema:update --force
 ```
 
 ### CREATION :
+
+```
+php bin/console make:controller HomeController
+php bin/console make:controller ArticleController
+```
