@@ -1,5 +1,7 @@
 ### UP projet blog Studi.
 
+### CONFIGURATION :
+
 Création de l'app:
 
 ```
@@ -37,3 +39,5 @@ En fin il faut modifier la DB:
 ```
 php bin/console doctrine:schema:update --force
 ```
+
+### CREATION :
