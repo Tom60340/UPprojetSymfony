@@ -42,7 +42,21 @@ php bin/console doctrine:schema:update --force
 
 ### CREATION :
 
+Création des controllers:
+
 ```
 php bin/console make:controller HomeController
 php bin/console make:controller ArticleController
+```
+
+Création du formulaire:
+
+```
+php bin/console make:form
+```
+
+Création du formulaire d'enregistrement:
+
+```
+php bin/console make:registration-form
 ```
