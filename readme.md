@@ -60,3 +60,9 @@ Création du formulaire d'enregistrement:
 ```
 php bin/console make:registration-form
 ```
+
+Création authenticator:
+
+```
+php bin/console make:auth
+```
