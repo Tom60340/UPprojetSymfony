@@ -5,6 +5,9 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\Request;
 
 use App\Entity\Article;
 
@@ -17,10 +20,10 @@ class ArticleController extends AbstractController
      *
      * @return Response
      */
-    public function index(int $id): Response
+    public function index(int $id,ManagerRegistry $doctrine): Response
     {   
         //Entity Manager de Symfony
-        $em = $this->getDoctrine()->getMAnager();
+        $em = $doctrine->getMAnager();
         // On récupère l'article qui correspond à l'id passé dans l'URL
         $article = $em->getRepository(Article::class)->findBy(['id'=> $id]);
 
@@ -33,10 +36,10 @@ class ArticleController extends AbstractController
      * Modifier / ajouter un article
      * 
      */
-    public function edit(Request $request, int $id=null): Response
+    public function edit(Request $request, int $id=null,ManagerRegistry $doctrine): Response
     {
         //Entity Manager de Symfony
-        $em = $this->getDoctrine()->getManager();
+        $em = $doctrine->getManager();
 
         if($id){
             $mode = 'update';
@@ -51,7 +54,7 @@ class ArticleController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            $this->saveArticle($article, $mode);
+            $this->saveArticle($article, $mode, $doctrine);
 
             return $this->redirectToRoute('article_edit',array('id' => $article->getId()));
         }
@@ -89,12 +92,12 @@ class ArticleController extends AbstractController
      *  Supprimer un article
      * 
      */
-    public function remove(int $id): Response
+    public function remove(int $id,ManagerRegistry $doctrine): Response
     {
         //Entity Manager de Symfony
-        $em = $this->getDoctrine()->getManager();
+        $em = $doctrine->getManager();
         //On récupère l'article qui correspond à l'id passé dans l'URL
-        $article = $em->getRepository()(Article::class)->findBy(['id => $id'])[0];
+        $article = $em->getRepository(Article::class)->findBy(['id => $id'])[0];
 
         //Suppression de l'article
         $em->remove($article);
@@ -110,10 +113,10 @@ class ArticleController extends AbstractController
      * @param Article $article
      * @param string $mode
      */
-    private function saveArticle(Article $article, string $mode){
+    private function saveArticle(Article $article, string $mode,ManagerRegistry $doctrine){
         $article = $this->completeArticleBeforeSave($article, $mode);
 
-        $em = $this->getDoctrine()->getManager();
+        $em = $doctrine->getManager();
         $em->persist($article);
         $em->flush();
     }
