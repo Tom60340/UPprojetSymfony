@@ -20,7 +20,7 @@ Création de l'entité User:
 php bin/console make:user
 ```
 
-Création de la DB puis de la migration et enfin doctrine:migrations:migrate :
+Création de la DB puis de la migration et enfin doctrine:migration:migrate :
 
 ```
 php bin/console doctrine:database:create
